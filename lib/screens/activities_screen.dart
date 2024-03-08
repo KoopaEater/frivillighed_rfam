@@ -2,14 +2,47 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:frivillighed_rfam/models/activity.dart';
 import 'package:frivillighed_rfam/table/activity_table.dart';
-import 'package:single_child_two_dimensional_scroll_view/single_child_two_dimensional_scroll_view.dart';
 
 class ActivitiesScreen extends StatelessWidget {
   static const id = "activities";
 
   final hScrollCtr = ScrollController();
   final vScrollCtr = ScrollController();
+
+  final Set<Activity> activities = {
+    Activity(
+      category: "Kuglestød",
+      title: "D15",
+      startTime: DateTime.parse("2024-03-10 10:00"),
+      endTime: DateTime.parse("2024-03-10 11:15"),
+    ),
+    Activity(
+      category: "Kuglestød",
+      title: "D17",
+      startTime: DateTime.parse("2024-03-10 11:30"),
+      endTime: DateTime.parse("2024-03-10 12:55"),
+    ),
+    Activity(
+      category: "Bod",
+      title: "Bod",
+      startTime: DateTime.parse("2024-03-10 09:00"),
+      endTime: DateTime.parse("2024-03-10 15:00"),
+    ),
+    Activity(
+      category: "Løb",
+      title: "60 m D19",
+      startTime: DateTime.parse("2024-03-10 11:30"),
+      endTime: DateTime.parse("2024-03-10 12:55"),
+    ),
+    Activity(
+      category: "Løb",
+      title: "60 m hæk D22",
+      startTime: DateTime.parse("2024-03-10 12:55"),
+      endTime: DateTime.parse("2024-03-10 13:10"),
+    ),
+  };
 
   ActivitiesScreen({super.key});
 
@@ -20,16 +53,22 @@ class ActivitiesScreen extends StatelessWidget {
         title: const Text('Frivillighed RFAM'),
       ),
       body: SafeArea(
-        child: Scrollbar(
-          controller: vScrollCtr,
+        child: Center(
           child: Scrollbar(
             controller: hScrollCtr,
-            child: SingleChildTwoDimensionalScrollView(
-              verticalController: vScrollCtr,
-              horizontalController: hScrollCtr,
-              child: const ActivityTable(
-                activityLabels: ["Løb", "Længdespring", "Højdespring", "Stangspring", "Kuglestød", "Bod"],
-                timeLabels: ["8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"],
+            thumbVisibility: true,
+            child: Scrollbar(
+              controller: vScrollCtr,
+              child: SingleChildScrollView(
+                controller: hScrollCtr,
+                scrollDirection: Axis.horizontal,
+                child: SingleChildScrollView(
+                  controller: vScrollCtr,
+                  scrollDirection: Axis.vertical,
+                  child: ActivityTable(
+                    activities: activities,
+                  ),
+                ),
               ),
             ),
           ),
