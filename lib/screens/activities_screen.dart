@@ -1,7 +1,5 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:frivillighed_rfam/models/activity.dart';
 import 'package:frivillighed_rfam/table/activity_table.dart';
 
@@ -23,6 +21,12 @@ class ActivitiesScreen extends StatelessWidget {
       title: "D17",
       startTime: DateTime.parse("2024-03-10 11:30"),
       endTime: DateTime.parse("2024-03-10 12:55"),
+    ),
+    Activity(
+      category: "Højdespring",
+      title: "D15",
+      startTime: DateTime.parse("2024-03-10 13:30"),
+      endTime: DateTime.parse("2024-03-10 14:30"),
     ),
     Activity(
       category: "Bod",

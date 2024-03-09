@@ -11,7 +11,7 @@ import 'package:frivillighed_rfam/table/vertical_lines.dart';
 class ActivityTable extends StatefulWidget {
   final Set<Activity> activities;
 
-  ActivityTable({super.key, required this.activities});
+  const ActivityTable({super.key, required this.activities});
 
   @override
   State<ActivityTable> createState() => _ActivityTableState();

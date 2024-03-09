@@ -12,7 +12,7 @@ class EventsScreen extends StatelessWidget {
         title: const Text('Frivillighed RFAM'),
       ),
       body: TextButton(
-        child: Text('Go to activities screen'),
+        child: const Text('Go to activities screen'),
         onPressed: () {
           Navigator.of(context).pushNamed(ActivitiesScreen.id);
         },

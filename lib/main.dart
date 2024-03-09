@@ -14,11 +14,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Frivillighed RFAM',
       theme: ThemeData(
-        scaffoldBackgroundColor: Color(0xFFF5F7FF),
+        scaffoldBackgroundColor: const Color(0xFFF5F7FF),
       ),
       initialRoute: EventsScreen.id,
       routes: {
-        EventsScreen.id:          (context) => EventsScreen(),
+        EventsScreen.id:          (context) => const EventsScreen(),
         ActivitiesScreen.id:      (context) => ActivitiesScreen(),
       },
     );

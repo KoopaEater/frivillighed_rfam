@@ -27,7 +27,7 @@ class TimeAnnotations extends StatelessWidget {
             width: timeWidth,
             height: timeHeight,
             alignment: Alignment.bottomRight,
-            padding: EdgeInsets.only(right: 16.0),
+            padding: const EdgeInsets.only(right: 16.0),
             child: Text(
               timeStr,
               style: const TextStyle(color: g2),
