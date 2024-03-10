@@ -8,6 +8,9 @@ class Activity {
 
   @override
   String toString() => '${category}:${title}';
+
+  String get formattedStartTime => "${startTime.hour}:${startTime.minute.toString().padLeft(2, '0')}";
+  String get formattedEndTime => "${endTime.hour}:${endTime.minute.toString().padLeft(2, '0')}";
 }
 
 class ActivityException implements Exception {

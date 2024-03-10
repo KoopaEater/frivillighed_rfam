@@ -11,6 +11,18 @@ class ActivitiesScreen extends StatelessWidget {
 
   final Set<Activity> activities = {
     Activity(
+      category: "Løb",
+      title: "60 m D19",
+      startTime: DateTime.parse("2024-03-10 11:30"),
+      endTime: DateTime.parse("2024-03-10 12:55"),
+    ),
+    Activity(
+      category: "Løb",
+      title: "60 m hæk D22",
+      startTime: DateTime.parse("2024-03-10 12:55"),
+      endTime: DateTime.parse("2024-03-10 13:10"),
+    ),
+    Activity(
       category: "Kuglestød",
       title: "D15",
       startTime: DateTime.parse("2024-03-10 10:00"),
@@ -33,18 +45,6 @@ class ActivitiesScreen extends StatelessWidget {
       title: "Bod",
       startTime: DateTime.parse("2024-03-10 09:00"),
       endTime: DateTime.parse("2024-03-10 15:00"),
-    ),
-    Activity(
-      category: "Løb",
-      title: "60 m D19",
-      startTime: DateTime.parse("2024-03-10 11:30"),
-      endTime: DateTime.parse("2024-03-10 12:55"),
-    ),
-    Activity(
-      category: "Løb",
-      title: "60 m hæk D22",
-      startTime: DateTime.parse("2024-03-10 12:55"),
-      endTime: DateTime.parse("2024-03-10 13:10"),
     ),
   };
 
