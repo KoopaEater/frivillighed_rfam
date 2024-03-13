@@ -7,7 +7,7 @@ class Activity {
   Activity({required this.category, required this.title, required this.startTime, required this.endTime});
 
   @override
-  String toString() => '${category}:${title}';
+  String toString() => '$category:$title';
 
   String get formattedStartTime => "${startTime.hour}:${startTime.minute.toString().padLeft(2, '0')}";
   String get formattedEndTime => "${endTime.hour}:${endTime.minute.toString().padLeft(2, '0')}";

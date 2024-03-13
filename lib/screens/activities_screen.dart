@@ -41,6 +41,12 @@ class ActivitiesScreen extends StatelessWidget {
       endTime: DateTime.parse("2024-03-10 14:30"),
     ),
     Activity(
+      category: "Stangspring",
+      title: "D19 + D22",
+      startTime: DateTime.parse("2024-03-10 10:00"),
+      endTime: DateTime.parse("2024-03-10 14:00"),
+    ),
+    Activity(
       category: "Bod",
       title: "Bod",
       startTime: DateTime.parse("2024-03-10 09:00"),

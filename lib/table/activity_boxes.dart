@@ -24,7 +24,7 @@ class _ActivityBoxesState extends State<ActivityBoxes> {
     List<Widget> widgets = [];
 
     widgets.add(
-      SizedBox(
+      const SizedBox(
         width: timeWidth,
       ),
     );
@@ -47,7 +47,7 @@ class _ActivityBoxesState extends State<ActivityBoxes> {
     List<Widget> widgets = [];
 
     widgets.add(
-      SizedBox(
+      const SizedBox(
         height: activityHeight,
       ),
     );
@@ -61,14 +61,16 @@ class _ActivityBoxesState extends State<ActivityBoxes> {
       double beforeHeight = ActivityHelper()
           .decimalBetweenDateTimes(lastTime, activity.startTime) * timeHeight;
 
-      if (beforeHeight < 0)
+      if (beforeHeight < 0) {
         throw ActivityException(activity, "overlap detected");
+      }
 
       double activityHeight = ActivityHelper()
           .decimalBetweenDateTimes(activity.startTime, activity.endTime) * timeHeight;
 
-      if (activityHeight < 0)
+      if (activityHeight < 0) {
         throw ActivityException(activity, "spans negative time");
+      }
 
       if (beforeHeight > 0) {
         widgets.add(
