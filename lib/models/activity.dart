@@ -1,10 +1,14 @@
+import 'package:frivillighed_rfam/models/task.dart';
+
 class Activity {
+  final String id;
   final String category;
   final String title;
   final DateTime startTime;
   final DateTime endTime;
+  final Map<String, Task> tasks;
 
-  Activity({required this.category, required this.title, required this.startTime, required this.endTime});
+  Activity({this.id = "NONE", required this.category, required this.title, required this.startTime, required this.endTime, required this.tasks});
 
   @override
   String toString() => '$category:$title';

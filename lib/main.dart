@@ -1,13 +1,19 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:frivillighed_rfam/firebase_options.dart';
 import 'package:frivillighed_rfam/screens/activities_screen.dart';
 import 'package:frivillighed_rfam/screens/events_screen.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const FrivillighedRFAM());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class FrivillighedRFAM extends StatelessWidget {
+  const FrivillighedRFAM({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +24,8 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: EventsScreen.id,
       routes: {
-        EventsScreen.id:          (context) => const EventsScreen(),
-        ActivitiesScreen.id:      (context) => ActivitiesScreen(),
+        EventsScreen.id: (context) => const EventsScreen(),
+        ActivitiesScreen.id: (context) => ActivitiesScreen(),
       },
     );
   }

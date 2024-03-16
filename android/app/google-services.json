@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "741558367057",
+    "project_id": "frivillighed-rfa",
+    "storage_bucket": "frivillighed-rfa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:741558367057:android:01e808dd235a1c0f721970",
+        "android_client_info": {
+          "package_name": "com.example.frivillighed_rfam"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlfRZsioom2UeBjVHIUPGO91LkAUg_te0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

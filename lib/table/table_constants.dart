@@ -13,9 +13,6 @@ const tablePadding = 50.0;
 const activityPadding = 2.0;
 const activityContentPadding = 4.0;
 
-const dialogCornerRadius = 12.0;
-const dialogPadding = 12.0;
-
 const g1 = Color(0xFF000000);
 const g2 = Color(0xFFBBBBBB);
 

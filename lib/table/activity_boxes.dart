@@ -59,14 +59,16 @@ class _ActivityBoxesState extends State<ActivityBoxes> {
 
     for (Activity activity in sortedActivities) {
       double beforeHeight = ActivityHelper()
-          .decimalBetweenDateTimes(lastTime, activity.startTime) * timeHeight;
+              .decimalBetweenDateTimes(lastTime, activity.startTime) *
+          timeHeight;
 
       if (beforeHeight < 0) {
         throw ActivityException(activity, "overlap detected");
       }
 
       double activityHeight = ActivityHelper()
-          .decimalBetweenDateTimes(activity.startTime, activity.endTime) * timeHeight;
+              .decimalBetweenDateTimes(activity.startTime, activity.endTime) *
+          timeHeight;
 
       if (activityHeight < 0) {
         throw ActivityException(activity, "spans negative time");
