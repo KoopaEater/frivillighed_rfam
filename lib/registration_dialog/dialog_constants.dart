@@ -7,6 +7,8 @@ const dialogBoxCornerRadius = 2.0;
 const dialogBoxTopPadding = 16.0;
 const dialogSpacing = 32.0;
 const dialogWidth = 500.0;
+const buttonSpacing = 8.0;
+const errorDialogWidth = 200.0;
 
 const g2 = Color(0xFFBBBBBB);
 

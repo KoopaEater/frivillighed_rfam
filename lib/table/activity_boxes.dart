@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:frivillighed_rfam/models/activity.dart';
-import 'package:frivillighed_rfam/models/activity_helper.dart';
+import 'package:frivillighed_rfam/helpers/activity_helper.dart';
 import 'package:frivillighed_rfam/table/activity_box.dart';
 import 'package:frivillighed_rfam/table/table_constants.dart';
 
 class ActivityBoxes extends StatefulWidget {
-  final Map<String, Set<Activity>> activities;
+  final List<Activity> activities;
 
   const ActivityBoxes({super.key, required this.activities});
 
@@ -19,9 +19,10 @@ class _ActivityBoxesState extends State<ActivityBoxes> {
     super.initState();
   }
 
-  List<Widget> buildColumns(Map<String, Set<Activity>> activityMap) {
-    DateTime minTime = ActivityHelper().getMinTimeFromMap(activityMap);
+  List<Widget> buildColumns(List<Activity> activities) {
+    DateTime minTime = ActivityHelper().getMinTime(activities);
     List<Widget> widgets = [];
+    Map<String, List<Activity>> activityMap = ActivityHelper().getActivityMap(activities);
 
     widgets.add(
       const SizedBox(
@@ -29,7 +30,7 @@ class _ActivityBoxesState extends State<ActivityBoxes> {
       ),
     );
 
-    for (Set<Activity> activities in activityMap.values) {
+    for (List<Activity> activities in activityMap.values) {
       widgets.add(
         SizedBox(
           width: activityWidth,
@@ -43,7 +44,7 @@ class _ActivityBoxesState extends State<ActivityBoxes> {
     return widgets;
   }
 
-  List<Widget> buildColumn(Set<Activity> colActivities, DateTime minTime) {
+  List<Widget> buildColumn(List<Activity> colActivities, DateTime minTime) {
     List<Widget> widgets = [];
 
     widgets.add(
@@ -52,12 +53,11 @@ class _ActivityBoxesState extends State<ActivityBoxes> {
       ),
     );
 
-    List<Activity> sortedActivities = colActivities.toList();
-    sortedActivities.sort((a, b) => a.startTime.compareTo(b.startTime));
+    colActivities.sort((a, b) => a.startTime.compareTo(b.startTime));
 
     DateTime lastTime = minTime;
 
-    for (Activity activity in sortedActivities) {
+    for (Activity activity in colActivities) {
       double beforeHeight = ActivityHelper()
               .decimalBetweenDateTimes(lastTime, activity.startTime) *
           timeHeight;

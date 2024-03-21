@@ -6,9 +6,10 @@ class Activity {
   final String title;
   final DateTime startTime;
   final DateTime endTime;
-  final Map<String, Task> tasks;
+  final List<Task> tasks;
+  final bool full;
 
-  Activity({this.id = "NONE", required this.category, required this.title, required this.startTime, required this.endTime, required this.tasks});
+  Activity({required this.id, required this.category, required this.title, required this.startTime, required this.endTime, required this.tasks, required this.full});
 
   @override
   String toString() => '$category:$title';

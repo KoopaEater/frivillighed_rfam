@@ -9,20 +9,20 @@ class ActivityHelper {
 
   ActivityHelper._internal();
 
-  Map<String, Set<Activity>> getActivityMap(Set<Activity> activities) {
-    Map<String, Set<Activity>> activityMap = {};
+  Map<String, List<Activity>> getActivityMap(List<Activity> activities) {
+    Map<String, List<Activity>> activityMap = {};
     for (Activity activity in activities) {
-      Set<Activity>? s = activityMap[activity.category];
-      if (s != null) {
-        s.add(activity);
+      List<Activity>? l = activityMap[activity.category];
+      if (l == null) {
+        activityMap[activity.category] = [activity];
       } else {
-        activityMap[activity.category] = {activity};
+        l.add(activity);
       }
     }
     return activityMap;
   }
 
-  DateTime getMinTime(Set<Activity> activities) {
+  DateTime getMinTime(List<Activity> activities) {
     DateTime minTime = DateTime(3000);
     for (Activity activity in activities) {
       if (activity.startTime.isBefore(minTime)) {
@@ -32,19 +32,7 @@ class ActivityHelper {
     return minTime;
   }
 
-  DateTime getMinTimeFromMap(Map<String, Set<Activity>> activityMap) {
-    DateTime minTime = DateTime(3000);
-    for (Set<Activity> activities in activityMap.values) {
-      for (Activity activity in activities) {
-        if (activity.startTime.isBefore(minTime)) {
-          minTime = activity.startTime;
-        }
-      }
-    }
-    return minTime;
-  }
-
-  DateTime getMaxTime(Set<Activity> activities) {
+  DateTime getMaxTime(List<Activity> activities) {
     DateTime maxTime = DateTime(0);
     for (Activity activity in activities) {
       if (activity.endTime.isAfter(maxTime)) {
@@ -54,7 +42,7 @@ class ActivityHelper {
     return maxTime;
   }
 
-  List<String> getTimeLabels(Set<Activity> activities) {
+  List<String> getTimeLabels(List<Activity> activities) {
 
     DateTime minTime = getMinTime(activities);
     DateTime maxTime = getMaxTime(activities);
@@ -64,6 +52,15 @@ class ActivityHelper {
       timeLabels.add("$hour:00");
     }
     return timeLabels;
+  }
+
+  List<String> getActivityLabels(List<Activity> activities) {
+    List<String> activityLabels = [];
+    for (Activity activity in activities) {
+      if (activityLabels.contains(activity.category)) continue;
+      activityLabels.add(activity.category);
+    }
+    return activityLabels;
   }
 
   double dateTimeToDecimal(DateTime time) {

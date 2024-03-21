@@ -15,13 +15,21 @@ const activityContentPadding = 4.0;
 
 const g1 = Color(0xFF000000);
 const g2 = Color(0xFFBBBBBB);
+const g3 = Color(0xFF8E8E8E);
 
 const acGreen = Color(0xCCB0E57C);
 const acGreenO = Color(0xFF6B8E23);
 const acGreenH = Color(0xCCCCEB9D);
-const acYellow = Color(0xCCFFD700);
-const acYellowO = Color(0xFFB8860B);
-const acYellowH = Color(0xCCFFE14F);
-const acRed = Color(0xCCFF6B6B);
-const acRedO = Color(0xFF800000);
-const acRedH = Color(0xCCFFA5A5);
+const acGrey = Color(0xCCBBBBBB);
+const acGreyO = Color(0xFF8E8E8E);
+const acGreyH = Color(0xCCCBCBCB);
+
+
+
+
+// const acYellow = Color(0xCCFFD700);
+// const acYellowO = Color(0xFFB8860B);
+// const acYellowH = Color(0xCCFFE14F);
+// const acRed = Color(0xCCFF6B6B);
+// const acRedO = Color(0xFF800000);
+// const acRedH = Color(0xCCFFA5A5);

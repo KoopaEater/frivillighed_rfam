@@ -26,18 +26,18 @@ class ActivityBox extends StatelessWidget {
         child: HoverContainer(
           width: double.infinity,
           hoverDecoration: BoxDecoration(
-            color: acGreenH,
+            color: activity.full ? acGreyH : acGreenH,
             border: Border.all(
               width: 2.0,
-              color: acGreenO,
+              color: activity.full ? acGreyO : acGreenO,
             ),
             borderRadius: BorderRadius.circular(activityCornerRadius),
           ),
           decoration: BoxDecoration(
-            color: acGreen,
+            color: activity.full ? acGrey : acGreen,
             border: Border.all(
               width: 2.0,
-              color: acGreenO,
+              color: activity.full ? acGreyO : acGreenO,
             ),
             borderRadius: BorderRadius.circular(activityCornerRadius),
           ),

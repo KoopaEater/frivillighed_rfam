@@ -38,6 +38,7 @@ dependencies:
   hovering: ^1.0.4
   cloud_firestore: ^4.15.9
   firebase_core: ^2.27.1
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:

@@ -47,6 +47,16 @@ class DatabaseHelper {
 
     for (QueryDocumentSnapshot snap in querySnapshot.docs) {
       final data = snap.data() as Map<String, dynamic>;
+
+      final List<Task> tasks = await getTasks(snap.id);
+      bool full = true;
+
+      for (Task t in tasks) {
+        if (t.volunteers.length < t.maxVolunteers) {
+          full = false;
+        }
+      }
+
       try {
         Activity a = Activity(
           id: snap.id,
@@ -54,8 +64,10 @@ class DatabaseHelper {
           title: data["title"],
           startTime: data["start_time"].toDate(),
           endTime: data["end_time"].toDate(),
-          tasks: await getTasks(snap.id),
+          tasks: tasks,
+          full: full,
         );
+        activities.add(a);
       } catch (e) {
         print("Error happened when fetching activity: $e");
       }
@@ -113,5 +125,23 @@ class DatabaseHelper {
     }
 
     return volunteers;
+  }
+
+  Future<void> uploadVolunteer(Volunteer volunteer, String taskId) async {
+    await _firestore.collection("Volunteers").add({
+      "full_name": volunteer.name,
+      "phone": volunteer.phone,
+      "task": taskId,
+    });
+  }
+
+  Future<int> getVolunteerCountForTask(String taskId) async {
+    try {
+      final snap = await _firestore.collection("Volunteers").where("task", isEqualTo: taskId).count().get();
+      return snap.count!;
+    } catch (e) {
+      print("Error happened when fetching count of volunteers: $e");
+    }
+    return 0;
   }
 }
