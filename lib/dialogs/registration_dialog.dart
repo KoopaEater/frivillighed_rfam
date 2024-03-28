@@ -1,15 +1,16 @@
-import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frivillighed_rfam/dialogs/general_dialog.dart';
 import 'package:frivillighed_rfam/helpers/database_helper.dart';
 import 'package:frivillighed_rfam/models/activity.dart';
 import 'package:frivillighed_rfam/models/event.dart';
 import 'package:frivillighed_rfam/models/task.dart';
 import 'package:frivillighed_rfam/models/volunteer.dart';
 import 'package:frivillighed_rfam/providers/main_provider.dart';
-import 'package:frivillighed_rfam/registration_dialog/dialog_constants.dart';
-import 'package:frivillighed_rfam/registration_dialog/error_dialog.dart';
-import 'package:frivillighed_rfam/registration_dialog/titled_container.dart';
+import 'package:frivillighed_rfam/dialogs/dialog_constants.dart';
+import 'package:frivillighed_rfam/dialogs/error_dialog.dart';
+import 'package:frivillighed_rfam/dialogs/titled_container.dart';
 import 'package:provider/provider.dart';
 
 class RegistrationDialog extends StatefulWidget {
@@ -48,11 +49,31 @@ class _RegistrationDialogState extends State<RegistrationDialog> {
           await DatabaseHelper().getVolunteerCountForTask(chosenTask!.id);
 
       if (volunteerCount < chosenTask!.maxVolunteers) {
-        await DatabaseHelper().uploadVolunteer(v, chosenTask!.id);
+
+        final bool phoneExists = await DatabaseHelper()
+            .existsVolunteerForActivityWithPhone(widget.activity.id, v.phone);
+
+        if (!phoneExists) {
+          // SUCCESS
+          await DatabaseHelper().uploadVolunteer(v, chosenTask!.id);
+        } else {
+          // ERROR
+          await showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => const ErrorDialog(
+              title: "Fejl ved tilmelding",
+              message:
+              "Dette telefonnummer er allerede tilmeldt denne aktivitet, og kan ikke tilmeldes igen. Hvis du mener, at dette er en fejl kan du skrive til arrangøren.",
+            ),
+          );
+        }
       } else {
+        // ERROR
         await showDialog(
           context: context,
-          builder: (context) => ErrorDialog(
+          barrierDismissible: false,
+          builder: (context) => const ErrorDialog(
             title: "Fejl ved tilmelding",
             message:
                 "Det lader til, at nogen har tilmeldt sig denne opgave på samme tid, som dig. Så der er desværre ikke plads. Prøv at vælg en anden opgave.",
@@ -117,7 +138,7 @@ class _RegistrationDialogState extends State<RegistrationDialog> {
     );
   }
 
-  Form _getVolunteerForm() {
+  Form _buildVolunteerForm() {
     return Form(
       key: _formKey,
       child: Column(
@@ -185,93 +206,120 @@ class _RegistrationDialogState extends State<RegistrationDialog> {
     );
   }
 
-  Row _getButtons(BuildContext context) {
-    List<Widget> childrenUploading = [
-      const CircularProgressIndicator(),
-    ];
-
-    List<Widget> childrenNormal = [
-      FilledButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        style: ButtonStyle(
-          backgroundColor: MaterialStateColor.resolveWith(
-            (states) => Theme.of(context).colorScheme.secondary,
-          ),
+  Widget _buildButtons(BuildContext context) {
+    if (widget.activity.full) {
+      return Align(
+        alignment: Alignment.topRight,
+        child: FilledButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text("Tilbage"),
         ),
-        child: const Text("Annuller"),
-      ),
-      const SizedBox(
-        width: buttonSpacing,
-      ),
-      FilledButton(
-        onPressed: () {
-          uploadVolunteer();
-        },
-        child: const Text("Meld dig!"),
-      ),
-    ];
+      );
+    } else {
+      List<Widget> childrenUploading = [
+        const CircularProgressIndicator(),
+      ];
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: uploading ? childrenUploading : childrenNormal,
-    );
+      List<Widget> childrenNormal = [
+        FilledButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          style: ButtonStyle(
+            backgroundColor: MaterialStateColor.resolveWith(
+              (states) => Theme.of(context).colorScheme.secondary,
+            ),
+          ),
+          child: const Text("Annuller"),
+        ),
+        const SizedBox(
+          width: buttonSpacing,
+        ),
+        FilledButton(
+          onPressed: () {
+            uploadVolunteer();
+          },
+          child: const Text("Meld dig!"),
+        ),
+      ];
+
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: uploading ? childrenUploading : childrenNormal,
+      );
+    }
   }
 
   Column _buildRegistration(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Meld dig som frivillig:"),
-        _getVolunteerForm(),
+        Text(
+          "Meld dig som frivillig!",
+          style: subtitleTextStyle,
+        ),
+        _buildVolunteerForm(),
         SizedBox(
           height: dialogSpacing,
         ),
-        _getButtons(context),
+      ],
+    );
+  }
+
+  Row _buildTitle() {
+    return Row(
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.activity.category,
+                style: titleTextStyle,
+              ),
+              Text(
+                widget.activity.title,
+                style: subtitleTextStyle,
+              ),
+            ],
+          ),
+        ),
+        Text(
+            "${widget.activity.formattedStartTime} - ${widget.activity.formattedEndTime}"),
+        const SizedBox(
+          width: iconSpacing,
+        ),
+        const Icon(Icons.access_time),
       ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(dialogCornerRadius),
-      ),
-      elevation: 10.0,
-      child: Padding(
-        padding: const EdgeInsets.all(dialogPadding),
-        child: SingleChildScrollView(
-          child: Container(
-            width: min(MediaQuery.of(context).size.width, dialogWidth),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return GeneralDialog(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _buildTitle(),
+          Flexible(
+            child: ListView(
+              shrinkWrap: true,
               children: [
-                Text("Meld dig som frivillig til: ${widget.activity.category}"),
-                Text(
-                    "Tidspunkt: ${widget.activity.formattedStartTime}-${widget.activity.formattedEndTime}"),
-                Text("Beskrivelse: ${widget.activity.title}"),
                 _buildVolunteerBoxes(),
                 SizedBox(
                   height: dialogSpacing,
                 ),
                 widget.activity.full
-                    ? Align(
-                        alignment: Alignment.topRight,
-                        child: FilledButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text("Tilbage"),
-                        ),
-                      )
+                    ? const SizedBox()
                     : _buildRegistration(context),
               ],
             ),
           ),
-        ),
+          _buildButtons(context),
+        ],
       ),
     );
   }

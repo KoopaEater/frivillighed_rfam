@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frivillighed_rfam/registration_dialog/dialog_constants.dart';
+import 'package:frivillighed_rfam/dialogs/dialog_constants.dart';
 
 class ErrorDialog extends StatelessWidget {
   final String title;

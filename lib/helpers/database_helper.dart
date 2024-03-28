@@ -144,4 +144,18 @@ class DatabaseHelper {
     }
     return 0;
   }
+
+  Future<bool> existsVolunteerForActivityWithPhone(String activityId, String phone) async {
+
+    List<Task> tasks = await getTasks(activityId);
+    List<String> taskIds = tasks.map((task) => task.id).toList();
+
+    try {
+      final snap = await _firestore.collection("Volunteers").where("task", whereIn: taskIds).where("phone", isEqualTo: phone).count().get();
+      return snap.count! > 0;
+    } catch (e) {
+      print("Error happened when fetching count of volunteers: $e");
+    }
+    return false;
+  }
 }

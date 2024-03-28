@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frivillighed_rfam/buttons/floating_buttons.dart';
 import 'package:frivillighed_rfam/models/activity.dart';
 import 'package:frivillighed_rfam/helpers/database_helper.dart';
 import 'package:frivillighed_rfam/models/event.dart';
@@ -32,7 +33,8 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
   }
 
   void loadActivities() async {
-    Event? chosenEvent = Provider.of<MainProvider>(context, listen: false).chosenEvent;
+    Event? chosenEvent =
+        Provider.of<MainProvider>(context, listen: false).chosenEvent;
 
     if (chosenEvent == null) {
       Navigator.pushNamedAndRemoveUntil(
@@ -44,7 +46,8 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
 
       List<Activity> newActivities =
           await DatabaseHelper().getActivities(chosenEvent.id);
-      Provider.of<MainProvider>(context, listen: false).activities = newActivities;
+      Provider.of<MainProvider>(context, listen: false).activities =
+          newActivities;
 
       setState(() {
         loading = false;
@@ -58,6 +61,7 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
       appBar: AppBar(
         title: const Text('Frivillighed RFAM'),
       ),
+      floatingActionButton: FloatingButtons(),
       body: SafeArea(
         child: Center(
           child: Scrollbar(

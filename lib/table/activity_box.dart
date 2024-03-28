@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frivillighed_rfam/models/activity.dart';
-import 'package:frivillighed_rfam/registration_dialog/registration_dialog.dart';
+import 'package:frivillighed_rfam/dialogs/registration_dialog.dart';
 import 'package:frivillighed_rfam/table/table_constants.dart';
 import 'package:hovering/hovering.dart';
 
@@ -18,6 +18,7 @@ class ActivityBox extends StatelessWidget {
         onTap: () {
           showDialog(
             context: context,
+            barrierDismissible: false,
             builder: (context) => RegistrationDialog(
               activity: activity,
             ),
