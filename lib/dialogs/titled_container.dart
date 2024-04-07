@@ -16,7 +16,7 @@ class TitledContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: dialogBoxTopPadding),
+      padding: const EdgeInsets.only(top: dialogSmallSpacing),
       child: InputDecorator(
         decoration: InputDecoration(
           labelText: titleText,

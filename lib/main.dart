@@ -28,13 +28,12 @@ class FrivillighedRFAM extends StatelessWidget {
       child: MaterialApp(
         title: 'Frivillighed RFAM',
         theme: ThemeData(
-          useMaterial3: false,
           colorSchemeSeed: const Color(0xFF094E94),
         ),
         initialRoute: EventsScreen.id,
         routes: {
           EventsScreen.id: (context) => const EventsScreen(),
-          ActivitiesScreen.id: (context) => ActivitiesScreen(),
+          ActivitiesScreen.id: (context) => const ActivitiesScreen(),
         },
       ),
     );

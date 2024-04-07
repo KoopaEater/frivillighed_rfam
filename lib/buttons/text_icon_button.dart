@@ -20,7 +20,7 @@ class TextIconButton extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(text),
-          SizedBox(
+          const SizedBox(
             width: iconSpacing,
           ),
           Icon(icon),

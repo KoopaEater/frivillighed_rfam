@@ -18,7 +18,7 @@ class FloatingButtons extends StatelessWidget {
           color: Theme.of(context).colorScheme.secondary,
           onPressed: () {},
         ),
-        SizedBox(
+        const SizedBox(
           height: buttonSpacing,
         ),
         TextIconButton(

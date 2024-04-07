@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 const dialogCornerRadius = 12.0;
 const dialogPadding = 32.0;
 const dialogBoxCornerRadius = 2.0;
-const dialogBoxTopPadding = 16.0;
+const dialogSmallSpacing = 16.0;
 const dialogSpacing = 32.0;
 const dialogWidth = 500.0;
 const buttonSpacing = 8.0;
 const errorDialogWidth = 200.0;
 const iconSpacing = 8.0;
+const timeBoxSpacing = 8.0;
+const remarksBoxHeight = 128.0;
 
 const g2 = Color(0xFFBBBBBB);
 

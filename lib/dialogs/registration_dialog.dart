@@ -1,5 +1,4 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frivillighed_rfam/dialogs/general_dialog.dart';
 import 'package:frivillighed_rfam/helpers/database_helper.dart';
@@ -16,7 +15,7 @@ import 'package:provider/provider.dart';
 class RegistrationDialog extends StatefulWidget {
   final Activity activity;
 
-  RegistrationDialog({super.key, required this.activity});
+  const RegistrationDialog({super.key, required this.activity});
 
   @override
   State<RegistrationDialog> createState() => _RegistrationDialogState();
@@ -143,8 +142,8 @@ class _RegistrationDialogState extends State<RegistrationDialog> {
       key: _formKey,
       child: Column(
         children: [
-          SizedBox(
-            height: dialogBoxTopPadding,
+          const SizedBox(
+            height: dialogSmallSpacing,
           ),
           DropdownButtonFormField(
             decoration: InputDecoration(border: dialogBoxBorder),
@@ -162,11 +161,12 @@ class _RegistrationDialogState extends State<RegistrationDialog> {
               return null;
             },
           ),
-          SizedBox(
-            height: dialogBoxTopPadding,
+          const SizedBox(
+            height: dialogSpacing,
           ),
           TextFormField(
             controller: _nameController,
+            keyboardType: TextInputType.name,
             decoration: InputDecoration(
               labelText: "Fulde navn",
               border: dialogBoxBorder,
@@ -175,14 +175,14 @@ class _RegistrationDialogState extends State<RegistrationDialog> {
               if (value == null || value.isEmpty) {
                 return "Skriv venligst et navn";
               }
-              if (!_nameRegExp.hasMatch(value as String)) {
+              if (!_nameRegExp.hasMatch(value)) {
                 return "Skriv venligst et gyldigt navn";
               }
               return null;
             },
           ),
-          SizedBox(
-            height: dialogBoxTopPadding,
+          const SizedBox(
+            height: dialogSmallSpacing,
           ),
           TextFormField(
             controller: _phoneController,
@@ -195,7 +195,7 @@ class _RegistrationDialogState extends State<RegistrationDialog> {
               if (value == null || value.isEmpty) {
                 return "Skriv venligst et telefonnummer";
               }
-              if (!_phoneRegExp.hasMatch(value as String)) {
+              if (!_phoneRegExp.hasMatch(value)) {
                 return "Skriv venligst et gyldigt telefonnummer";
               }
               return null;
@@ -208,14 +208,11 @@ class _RegistrationDialogState extends State<RegistrationDialog> {
 
   Widget _buildButtons(BuildContext context) {
     if (widget.activity.full) {
-      return Align(
-        alignment: Alignment.topRight,
-        child: FilledButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: const Text("Tilbage"),
-        ),
+      return FilledButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        child: const Text("Tilbage"),
       );
     } else {
       List<Widget> childrenUploading = [
@@ -228,9 +225,7 @@ class _RegistrationDialogState extends State<RegistrationDialog> {
             Navigator.pop(context);
           },
           style: ButtonStyle(
-            backgroundColor: MaterialStateColor.resolveWith(
-              (states) => Theme.of(context).colorScheme.secondary,
-            ),
+            backgroundColor: MaterialStatePropertyAll(Theme.of(context).colorScheme.secondary),
           ),
           child: const Text("Annuller"),
         ),
@@ -256,14 +251,11 @@ class _RegistrationDialogState extends State<RegistrationDialog> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           "Meld dig som frivillig!",
           style: subtitleTextStyle,
         ),
         _buildVolunteerForm(),
-        SizedBox(
-          height: dialogSpacing,
-        ),
       ],
     );
   }
@@ -299,26 +291,18 @@ class _RegistrationDialogState extends State<RegistrationDialog> {
   @override
   Widget build(BuildContext context) {
     return GeneralDialog(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
+      title: _buildTitle(),
+      actions: _buildButtons(context),
+      body: ListView(
+        shrinkWrap: true,
         children: [
-          _buildTitle(),
-          Flexible(
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                _buildVolunteerBoxes(),
-                SizedBox(
-                  height: dialogSpacing,
-                ),
-                widget.activity.full
-                    ? const SizedBox()
-                    : _buildRegistration(context),
-              ],
-            ),
+          _buildVolunteerBoxes(),
+          const SizedBox(
+            height: dialogSpacing,
           ),
-          _buildButtons(context),
+          widget.activity.full
+              ? const SizedBox()
+              : _buildRegistration(context),
         ],
       ),
     );

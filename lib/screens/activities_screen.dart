@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 class ActivitiesScreen extends StatefulWidget {
   static const id = "/activities";
 
-  ActivitiesScreen({super.key});
+  const ActivitiesScreen({super.key});
 
   @override
   State<ActivitiesScreen> createState() => _ActivitiesScreenState();
@@ -61,7 +61,7 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
       appBar: AppBar(
         title: const Text('Frivillighed RFAM'),
       ),
-      floatingActionButton: FloatingButtons(),
+      floatingActionButton: const FloatingButtons(),
       body: SafeArea(
         child: Center(
           child: Scrollbar(
@@ -78,7 +78,7 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
                   child: Consumer<MainProvider>(
                     builder: (context, provider, child) {
                       return loading
-                          ? CircularProgressIndicator()
+                          ? const CircularProgressIndicator()
                           : ActivityTable(
                               activities: provider.activities!,
                             );
