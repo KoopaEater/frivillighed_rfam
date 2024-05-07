@@ -8,11 +8,12 @@ class GeneralDialog extends StatelessWidget {
   final Widget body;
   final Widget actions;
 
-  const GeneralDialog(
-      {super.key,
-      required this.title,
-      required this.body,
-      required this.actions});
+  const GeneralDialog({
+    super.key,
+    required this.title,
+    required this.body,
+    required this.actions,
+  });
 
   @override
   Widget build(BuildContext context) {

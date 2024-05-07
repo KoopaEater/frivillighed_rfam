@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frivillighed_rfam/drawers/options_drawer.dart';
 import 'package:frivillighed_rfam/helpers/database_helper.dart';
 import 'package:frivillighed_rfam/models/event.dart';
 import 'package:frivillighed_rfam/providers/main_provider.dart';
@@ -43,6 +44,7 @@ class _EventsScreenState extends State<EventsScreen> {
       appBar: AppBar(
         title: const Text('Frivillighed RFAM'),
       ),
+      endDrawer: const OptionDrawer(),
       body: TextButton(
         child: const Text('Go to activities screen'),
         onPressed: () {

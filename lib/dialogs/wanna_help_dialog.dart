@@ -3,6 +3,8 @@ import 'package:frivillighed_rfam/dialogs/dialog_constants.dart';
 import 'package:frivillighed_rfam/dialogs/error_dialog.dart';
 import 'package:frivillighed_rfam/dialogs/general_dialog.dart';
 import 'package:frivillighed_rfam/dialogs/time_picker.dart';
+import 'package:frivillighed_rfam/helpers/database_helper.dart';
+import 'package:frivillighed_rfam/models/submission.dart';
 import 'package:frivillighed_rfam/providers/main_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -26,6 +28,8 @@ class _WannaHelpDialogState extends State<WannaHelpDialog> {
   late TimeOfDay fromTime;
   late TimeOfDay toTime;
 
+  bool uploading = false;
+
   @override
   void initState() {
     fromTime = TimeOfDay.fromDateTime(
@@ -45,6 +49,41 @@ class _WannaHelpDialogState extends State<WannaHelpDialog> {
     return result;
   }
 
+  Future<void> uploadSubmission() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        uploading = true;
+      });
+
+      final fromDateTime = timeOfDayToDateTime(fromTime);
+      final toDateTime = timeOfDayToDateTime(toTime);
+
+      if (fromDateTime.isAfter(toDateTime)) {
+        showDialog(
+          context: context,
+          builder: (context) => const ErrorDialog(
+            title: "Indtast gyldigt tidsrum",
+            message: "Sluttidspunktet skal lægge efter starttidspunktet",
+          ),
+        );
+      } else {
+        Submission submission = Submission(
+          fullName: _nameController.text,
+          phone: _phoneController.text,
+          remarks: _remarksController.text,
+          fromTime: fromDateTime,
+          toTime: toDateTime,
+        );
+        await DatabaseHelper().uploadSubmission(submission);
+        Navigator.of(context).pop();
+      }
+
+      setState(() {
+        uploading = false;
+      });
+    }
+  }
+
   Widget _buildTitle() {
     return const Text(
       "Jeg vil bare gerne hjælpe",
@@ -53,44 +92,36 @@ class _WannaHelpDialogState extends State<WannaHelpDialog> {
   }
 
   Widget _buildActions() {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        FilledButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          style: ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll(Theme.of(context).colorScheme.secondary),
-          ),
-          child: const Text("Annuller"),
-        ),
-        const SizedBox(
-          width: buttonSpacing,
-        ),
-        FilledButton(
-          onPressed: () {
-            if (_formKey.currentState!.validate()) {
-              final fromDateTime = timeOfDayToDateTime(fromTime);
-              final toDateTime = timeOfDayToDateTime(toTime);
+    List<Widget> childrenUploading = [
+      const CircularProgressIndicator(),
+    ];
 
-              if (fromDateTime.isAfter(toDateTime)) {
-                showDialog(
-                  context: context,
-                  builder: (context) => const ErrorDialog(
-                    title: "Indtast gyldigt tidsrum",
-                    message:
-                        "Sluttidspunktet skal lægge efter starttidspunktet",
-                  ),
-                );
-              } else {
-                Navigator.of(context).pop();
-              }
-            }
-          },
-          child: const Text("Meld dig!"),
+    List<Widget> childrenNormal = [
+      FilledButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        style: ButtonStyle(
+          backgroundColor: MaterialStatePropertyAll(
+            Theme.of(context).colorScheme.secondary,
+          ),
         ),
-      ],
+        child: const Text("Annuller"),
+      ),
+      const SizedBox(
+        width: buttonSpacing,
+      ),
+      FilledButton(
+        onPressed: () {
+          uploadSubmission();
+        },
+        child: const Text("Meld dig!"),
+      ),
+    ];
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: uploading ? childrenUploading : childrenNormal,
     );
   }
 

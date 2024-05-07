@@ -1,6 +1,7 @@
 import 'package:frivillighed_rfam/models/activity.dart';
 import 'package:frivillighed_rfam/models/event.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:frivillighed_rfam/models/submission.dart';
 import 'package:frivillighed_rfam/models/volunteer.dart';
 import 'package:frivillighed_rfam/models/task.dart';
 
@@ -137,7 +138,11 @@ class DatabaseHelper {
 
   Future<int> getVolunteerCountForTask(String taskId) async {
     try {
-      final snap = await _firestore.collection("Volunteers").where("task", isEqualTo: taskId).count().get();
+      final snap = await _firestore
+          .collection("Volunteers")
+          .where("task", isEqualTo: taskId)
+          .count()
+          .get();
       return snap.count!;
     } catch (e) {
       print("Error happened when fetching count of volunteers: $e");
@@ -145,17 +150,32 @@ class DatabaseHelper {
     return 0;
   }
 
-  Future<bool> existsVolunteerForActivityWithPhone(String activityId, String phone) async {
-
+  Future<bool> existsVolunteerForActivityWithPhone(
+      String activityId, String phone) async {
     List<Task> tasks = await getTasks(activityId);
     List<String> taskIds = tasks.map((task) => task.id).toList();
 
     try {
-      final snap = await _firestore.collection("Volunteers").where("task", whereIn: taskIds).where("phone", isEqualTo: phone).count().get();
+      final snap = await _firestore
+          .collection("Volunteers")
+          .where("task", whereIn: taskIds)
+          .where("phone", isEqualTo: phone)
+          .count()
+          .get();
       return snap.count! > 0;
     } catch (e) {
       print("Error happened when fetching count of volunteers: $e");
     }
     return false;
+  }
+
+  Future<void> uploadSubmission(Submission submission) async {
+    await _firestore.collection("Submissions").add({
+      "full_name": submission.fullName,
+      "phone": submission.phone,
+      "remarks": submission.remarks,
+      "from_time": Timestamp.fromDate(submission.fromTime),
+      "to_time": Timestamp.fromDate(submission.toTime),
+    });
   }
 }
