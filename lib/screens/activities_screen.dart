@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frivillighed_rfam/buttons/floating_buttons.dart';
-import 'package:frivillighed_rfam/drawers/options_drawer.dart';
+import 'package:frivillighed_rfam/drawers/default_options_drawer.dart';
 import 'package:frivillighed_rfam/models/activity.dart';
 import 'package:frivillighed_rfam/helpers/database_helper.dart';
 import 'package:frivillighed_rfam/models/event.dart';
@@ -62,7 +62,7 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
       appBar: AppBar(
         title: const Text('Frivillighed RFAM'),
       ),
-      endDrawer: const OptionDrawer(),
+      endDrawer: const DefaultOptionsDrawer(),
       floatingActionButton: const FloatingButtons(),
       body: SafeArea(
         child: Center(

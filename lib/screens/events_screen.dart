@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:frivillighed_rfam/drawers/options_drawer.dart';
+import 'package:frivillighed_rfam/drawers/admin_options_drawer.dart';
+import 'package:frivillighed_rfam/drawers/default_options_drawer.dart';
 import 'package:frivillighed_rfam/helpers/database_helper.dart';
 import 'package:frivillighed_rfam/models/event.dart';
+import 'package:frivillighed_rfam/providers/authentication_provider.dart';
 import 'package:frivillighed_rfam/providers/main_provider.dart';
 import 'package:frivillighed_rfam/screens/activities_screen.dart';
 import 'package:provider/provider.dart';
@@ -44,7 +46,7 @@ class _EventsScreenState extends State<EventsScreen> {
       appBar: AppBar(
         title: const Text('Frivillighed RFAM'),
       ),
-      endDrawer: const OptionDrawer(),
+      endDrawer: Provider.of<AuthenticationProvider>(context).signedIn ? const AdminOptionsDrawer() : const DefaultOptionsDrawer(),
       body: TextButton(
         child: const Text('Go to activities screen'),
         onPressed: () {

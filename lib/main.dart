@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:frivillighed_rfam/firebase_options.dart';
+import 'package:frivillighed_rfam/providers/authentication_provider.dart';
 import 'package:frivillighed_rfam/providers/main_provider.dart';
 import 'package:frivillighed_rfam/screens/activities_screen.dart';
 import 'package:frivillighed_rfam/screens/events_screen.dart';
@@ -23,7 +24,12 @@ class FrivillighedRFAM extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<MainProvider>(create: (_) => MainProvider()),
+        ChangeNotifierProvider<MainProvider>(
+          create: (_) => MainProvider(),
+        ),
+        ChangeNotifierProvider<AuthenticationProvider>(
+          create: (_) => AuthenticationProvider(),
+        ),
       ],
       child: MaterialApp(
         title: 'Frivillighed RFAM',

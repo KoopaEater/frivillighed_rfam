@@ -1,36 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:frivillighed_rfam/dialogs/admin_login_dialog.dart';
+import 'package:frivillighed_rfam/drawers/default_options_drawer_header.dart';
 
-class OptionDrawer extends StatelessWidget {
-  const OptionDrawer({super.key});
-
-  Widget _getHeader(BuildContext context) {
-    return DrawerHeader(
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
-      ),
-      child: ListTile(
-        title: Text("Valgmuligheder"),
-        textColor: Colors.white,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          ),
-        ),
-      ),
-    );
-  }
+class DefaultOptionsDrawer extends StatelessWidget {
+  const DefaultOptionsDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
         children: [
-          _getHeader(context),
+          const DefaultOptionsDrawerHeader(),
           ListTile(
             title: Text("Admin Login"),
             leading: Icon(Icons.admin_panel_settings),

@@ -1,9 +1,16 @@
+import 'dart:js_util';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:frivillighed_rfam/dialogs/dialog_constants.dart';
+import 'package:frivillighed_rfam/dialogs/error_dialog.dart';
 import 'package:frivillighed_rfam/dialogs/general_dialog.dart';
+import 'package:frivillighed_rfam/helpers/authentication_helper.dart';
+import 'package:frivillighed_rfam/providers/authentication_provider.dart';
+import 'package:provider/provider.dart';
 
 class AdminLoginDialog extends StatefulWidget {
-  AdminLoginDialog({super.key});
+  const AdminLoginDialog({super.key});
 
   @override
   State<AdminLoginDialog> createState() => _AdminLoginDialogState();
@@ -12,7 +19,7 @@ class AdminLoginDialog extends StatefulWidget {
 class _AdminLoginDialogState extends State<AdminLoginDialog> {
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _userNameController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   bool _hidePassword = true;
@@ -24,7 +31,46 @@ class _AdminLoginDialogState extends State<AdminLoginDialog> {
       _loading = true;
     });
 
-    // DO STUFF
+    final username = _usernameController.text;
+    final password = _passwordController.text;
+
+    try {
+      await AuthenticationHelper().signIn(username, password);
+      Provider.of<AuthenticationProvider>(context, listen: false).currentUser = AuthenticationHelper().currentUser;
+      Navigator.of(context).pop();
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case "invalid-credential":
+          await showDialog(
+            context: context,
+            builder: (BuildContext errorContext) =>
+                ErrorDialog(
+                  title: "Ugyldigt brugernavn eller kodeord",
+                  message: "Det indtaste brugernavn eller kodeord er ugyldigt",
+                ),
+          );
+          break;
+        default:
+          await showDialog(
+            context: context,
+            builder: (BuildContext errorContext) =>
+                ErrorDialog(
+                  title: "Fejl under login",
+                  message: "Der skete en fejl, da vi forsøgte at logge dig ind",
+                ),
+          );
+      }
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (BuildContext errorContext) =>
+            ErrorDialog(
+              title: "Fejl under login",
+              message: "Der skete en fejl, da vi forsøgte at logge dig ind",
+            ),
+      );
+      print(e);
+    }
 
     setState(() {
       _loading = false;
@@ -41,7 +87,7 @@ class _AdminLoginDialogState extends State<AdminLoginDialog> {
             height: dialogSmallSpacing,
           ),
           TextFormField(
-            controller: _userNameController,
+            controller: _usernameController,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
               labelText: "Brugernavn",
@@ -98,7 +144,8 @@ class _AdminLoginDialogState extends State<AdminLoginDialog> {
           Navigator.pop(context);
         },
         style: ButtonStyle(
-          backgroundColor: MaterialStatePropertyAll(Theme.of(context).colorScheme.secondary),
+          backgroundColor:
+              MaterialStatePropertyAll(Theme.of(context).colorScheme.secondary),
         ),
         child: const Text("Annuller"),
       ),

@@ -13,9 +13,10 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   hovering: ^1.0.4
-  cloud_firestore: ^4.15.9
-  firebase_core: ^2.27.1
   provider: ^6.1.2
+  cloud_firestore: ^4.17.3
+  firebase_core: ^2.31.0
+  firebase_auth: ^4.19.5
 
 dev_dependencies:
   flutter_test:
