@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:frivillighed_rfam/buttons/add_activity_button.dart';
 import 'package:frivillighed_rfam/buttons/buttons_constants.dart';
 import 'package:frivillighed_rfam/buttons/text_icon_button.dart';
+import 'package:frivillighed_rfam/buttons/wanna_help_button.dart';
+import 'package:frivillighed_rfam/buttons/write_message_button.dart';
 import 'package:frivillighed_rfam/dialogs/wanna_help_dialog.dart';
+import 'package:frivillighed_rfam/providers/authentication_provider.dart';
+import 'package:provider/provider.dart';
 
 class FloatingButtons extends StatelessWidget {
   const FloatingButtons({super.key});
@@ -12,27 +17,12 @@ class FloatingButtons extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        TextIconButton(
-          text: "Skriv til arrangøren",
-          icon: Icons.message,
-          color: Theme.of(context).colorScheme.secondary,
-          onPressed: () {},
+        Visibility(
+          visible: Provider.of<AuthenticationProvider>(context).signedIn,
+          child: const AddActivityButton(),
         ),
-        const SizedBox(
-          height: buttonSpacing,
-        ),
-        TextIconButton(
-          text: "Jeg vil bare gerne hjælpe",
-          icon: Icons.front_hand,
-          color: Theme.of(context).colorScheme.primary,
-          onPressed: () async {
-            await showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (context) => const WannaHelpDialog(),
-            );
-          },
-        ),
+        const WriteMessageButton(),
+        const WannaHelpButton(),
       ],
     );
   }

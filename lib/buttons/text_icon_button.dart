@@ -11,20 +11,23 @@ class TextIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FilledButton(
-      onPressed: onPressed,
-      style: ButtonStyle(
-        backgroundColor: MaterialStatePropertyAll(color),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(text),
-          const SizedBox(
-            width: iconSpacing,
-          ),
-          Icon(icon),
-        ],
+    return Padding(
+      padding: const EdgeInsets.only(top: buttonSpacing),
+      child: FilledButton(
+        onPressed: onPressed,
+        style: ButtonStyle(
+          backgroundColor: MaterialStatePropertyAll(color),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(text),
+            const SizedBox(
+              width: iconSpacing,
+            ),
+            Icon(icon),
+          ],
+        ),
       ),
     );
   }

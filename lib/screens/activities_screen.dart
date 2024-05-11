@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:frivillighed_rfam/buttons/floating_buttons.dart';
+import 'package:frivillighed_rfam/drawers/admin_options_drawer.dart';
 import 'package:frivillighed_rfam/drawers/default_options_drawer.dart';
 import 'package:frivillighed_rfam/models/activity.dart';
 import 'package:frivillighed_rfam/helpers/database_helper.dart';
 import 'package:frivillighed_rfam/models/event.dart';
+import 'package:frivillighed_rfam/providers/authentication_provider.dart';
 import 'package:frivillighed_rfam/providers/main_provider.dart';
 import 'package:frivillighed_rfam/screens/events_screen.dart';
 import 'package:frivillighed_rfam/table/activity_table.dart';
@@ -62,7 +64,7 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
       appBar: AppBar(
         title: const Text('Frivillighed RFAM'),
       ),
-      endDrawer: const DefaultOptionsDrawer(),
+      endDrawer: Provider.of<AuthenticationProvider>(context).signedIn ? const AdminOptionsDrawer() : const DefaultOptionsDrawer(),
       floatingActionButton: const FloatingButtons(),
       body: SafeArea(
         child: Center(

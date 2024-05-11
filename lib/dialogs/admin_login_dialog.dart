@@ -44,8 +44,8 @@ class _AdminLoginDialogState extends State<AdminLoginDialog> {
           await showDialog(
             context: context,
             builder: (BuildContext errorContext) =>
-                ErrorDialog(
-                  title: "Ugyldigt brugernavn eller kodeord",
+                const ErrorDialog(
+                  title: "Ugyldigt login",
                   message: "Det indtaste brugernavn eller kodeord er ugyldigt",
                 ),
           );
@@ -54,7 +54,7 @@ class _AdminLoginDialogState extends State<AdminLoginDialog> {
           await showDialog(
             context: context,
             builder: (BuildContext errorContext) =>
-                ErrorDialog(
+                const ErrorDialog(
                   title: "Fejl under login",
                   message: "Der skete en fejl, da vi forsøgte at logge dig ind",
                 ),
